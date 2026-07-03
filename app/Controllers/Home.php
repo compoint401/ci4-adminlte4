@@ -8,4 +8,9 @@ class Home extends BaseController
     {
         return view('welcome_message');
     }
+
+    public function page404(): string
+    {
+        return view('page404');
+    }
 }
