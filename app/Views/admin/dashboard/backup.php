@@ -20,8 +20,8 @@
           <div class="col">
             <h2>Database Backup</h2>
           </div>
-          <div class="col text-right">
-            <?= form_open(url_to('Backup::create')) ?>
+          <div class="col text-end">
+            <?= form_open(url_to('Admin\Backup::create')) ?>
             <button type="submit" class="button">Create Backup Now</button>
             <?= form_close() ?>
           </div>
@@ -44,9 +44,9 @@
                   <td><?= esc($backup['name']) ?></td>
                   <td><?= esc($backup['time']) ?></td>
                   <td><?= esc($backup['size_readable']) ?></td>
-                  <td><a href="<?= url_to('Backup::download', $backup['name']) ?>"
+                  <td><a href="<?= url_to('Admin\Backup::download', $backup['name']) ?>"
                       class="btn btn-success btn-sm">Download</a>
-                    <?= form_open(url_to('Backup::delete', $backup['name']), ['method' => 'post', 'style' => 'display:inline']) ?>
+                    <?= form_open(url_to('Admin\Backup::delete', $backup['name']), ['method' => 'post', 'style' => 'display:inline']) ?>
                     <button type="submit" class="btn btn-danger btn-sm"
                       onclick="return confirm('Delete this backup?')">Delete</button>
                     <?= form_close() ?>
