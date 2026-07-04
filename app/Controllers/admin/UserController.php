@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers\Admin;
+namespace app\Controllers\Admin;
 
 use CodeIgniter\Shield\Entities\User;
 use App\Models\UserModel;

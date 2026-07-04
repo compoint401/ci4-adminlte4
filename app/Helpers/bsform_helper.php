@@ -20,7 +20,7 @@ if (! function_exists('display_error')) {
 
 if (! function_exists('form_input_group')) {
     /**
-     * Generates a Bootstrap 4 form group for an input field.
+     * Generates a Bootstrap 5 form group for an input field.
      *
      * @param array $params Parameters for the input field.
      *                      'name'         => (string) Field name.
@@ -42,13 +42,18 @@ if (! function_exists('form_input_group')) {
         $type        = $params['type'] ?? 'text';
         $extra_attrs = $params['extra_attrs'] ?? '';
         $placeholder = $params['placeholder'] ?? "Enter {$label}";
+        $floating    = $params['floating'] ?? false;
         $error_class = isset($errors[$name]) ? 'is-invalid' : '';
+        $wrapper_cls = $floating ? 'form-floating mb-3' : 'mb-3';
+        $field_placeholder = $floating ? ' ' : $placeholder;
 
-        $input = "<input type='{$type}' name='{$name}' id='{$name}' class='form-control {$error_class}' placeholder='{$placeholder}' value='" . esc($value, 'attr') . "' {$extra_attrs}>";
+        $input = "<input type='{$type}' name='{$name}' id='{$name}' class='form-control {$error_class}' placeholder='{$field_placeholder}' value='" . esc($value, 'attr') . "' {$extra_attrs}>";
 
-        return "<div class='form-group'>
-                    <label for='{$name}'>{$label}</label>
-                    {$input}"
+        $label_html = "<label for='{$name}'" . ($floating ? '' : " class='form-label'") . ">{$label}</label>";
+
+        return "<div class='{$wrapper_cls}'>
+                    {$input}
+                    {$label_html}"
             . display_error($name, $errors) .
             "</div>";
     }
@@ -56,7 +61,7 @@ if (! function_exists('form_input_group')) {
 
 if (! function_exists('form_select_group')) {
     /**
-     * Generates a Bootstrap 4 form group for a select field.
+     * Generates a Bootstrap 5 form group for a select field.
      *
      * @param array $params Parameters for the select field.
      *                      'name'         => (string) Field name.
@@ -76,11 +81,14 @@ if (! function_exists('form_select_group')) {
         $options     = $params['options'] ?? [];
         $errors      = $params['errors'] ?? [];
         $is_multiple = $params['multiple'] ?? false;
+        $floating    = $params['floating'] ?? false;
+        $extra_attrs = $params['extra_attrs'] ?? '';
         $error_class = isset($errors[$name]) ? 'is-invalid' : '';
         $multiple_attr = $is_multiple ? 'multiple' : '';
         $selected_values = is_array($selected) ? $selected : [$selected];
+        $wrapper_cls = $floating ? 'form-floating mb-3' : 'mb-3';
 
-        $select = "<select name='{$name}' id='{$name}' class='form-control {$error_class}' {$multiple_attr}>";
+        $select = "<select name='{$name}' id='{$name}' class='form-select {$error_class}' {$multiple_attr} {$extra_attrs}>";
         if (!$is_multiple) {
             $select .= "<option value=''>Select {$label}</option>";
         }
@@ -92,9 +100,11 @@ if (! function_exists('form_select_group')) {
 
         $select .= "</select>";
 
-        return "<div class='form-group'>
-                    <label for='{$name}'>{$label}</label>
-                    {$select}"
+        $label_html = "<label for='{$name}'" . ($floating ? '' : " class='form-label'") . ">{$label}</label>";
+
+        return "<div class='{$wrapper_cls}'>
+                    {$select}
+                    {$label_html}"
             . display_error($name, $errors) .
             "</div>";
     }
@@ -102,7 +112,7 @@ if (! function_exists('form_select_group')) {
 
 if (! function_exists('form_textarea_group')) {
     /**
-     * Generates a Bootstrap 4 form group for a textarea field.
+     * Generates a Bootstrap 5 form group for a textarea field.
      *
      * @param array $params Parameters for the textarea field.
      *                      'name'         => (string) Field name.
@@ -122,13 +132,18 @@ if (! function_exists('form_textarea_group')) {
         $errors      = $params['errors'] ?? [];
         $extra_attrs = $params['extra_attrs'] ?? 'rows="4"';
         $placeholder = $params['placeholder'] ?? "Enter {$label}";
+        $floating    = $params['floating'] ?? false;
         $error_class = isset($errors[$name]) ? 'is-invalid' : '';
+        $wrapper_cls = $floating ? 'form-floating mb-3' : 'mb-3';
+        $field_placeholder = $floating ? ' ' : $placeholder;
 
-        $textarea = "<textarea name='{$name}' id='{$name}' class='form-control {$error_class}' placeholder='{$placeholder}' {$extra_attrs}>" . esc($value) . "</textarea>";
+        $textarea = "<textarea name='{$name}' id='{$name}' class='form-control {$error_class}' placeholder='{$field_placeholder}' {$extra_attrs}>" . esc($value) . "</textarea>";
 
-        return "<div class='form-group'>
-                    <label for='{$name}'>{$label}</label>
-                    {$textarea}"
+        $label_html = "<label for='{$name}'" . ($floating ? '' : " class='form-label'") . ">{$label}</label>";
+
+        return "<div class='{$wrapper_cls}'>
+                    {$textarea}
+                    {$label_html}"
             . display_error($name, $errors) .
             "</div>";
     }
