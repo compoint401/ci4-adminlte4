@@ -15,7 +15,18 @@ $routes->setTranslateURIDashes(false);
 $routes->set404Override('App\Controllers\Home::page404');
 $routes->setAutoRoute(false);
 
-// $routes->get('/', 'Home::index');
+$routes->get('/', 'Home::index');
+$routes->get('demo', function() {
+    
+    // $cleanTitle = urldecode(String $page);
+
+    // 2. Assign it to the data array
+    $data = [
+        'pageTitle' => urldecode($_GET['t'])
+    ];
+    
+    return view('admin/dashboard/demopage', $data); 
+});
 
 
 service('auth')->routes($routes);

@@ -4,6 +4,34 @@
  * =================================================================
  */
 
+if (typeof window.bootstrap !== "undefined" && window.bootstrap.Modal) {
+  $(document).on('show.bs.modal', '.modal', function () {
+    $(this).removeClass('fade');
+    $(this).find('.modal-backdrop').removeClass('fade');
+  });
+
+  $(document).on('shown.bs.modal', '.modal', function () {
+    $(this).removeClass('fade');
+    $(this).find('.modal-backdrop').removeClass('fade');
+  });
+
+  if (typeof $.fn.modal !== "function") {
+    $.fn.modal = function (command) {
+      return this.each(function () {
+        const modal = window.bootstrap.Modal.getOrCreateInstance(this);
+
+        if (command === "show") {
+          modal.show();
+        } else if (command === "hide") {
+          modal.hide();
+        } else if (command === "toggle") {
+          modal.toggle();
+        }
+      });
+    };
+  }
+}
+
 /**
  * Handles form submissions via AJAX.
  * @param {HTMLFormElement} form - The form element to be submitted.

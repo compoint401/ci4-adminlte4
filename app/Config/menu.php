@@ -28,35 +28,19 @@ $menu = [
     'submenu' => [
       [
         'title' => 'Ledgers',
-        'url'   => 'reports',
+        'url'   => 'demo?t=Demo Ledgers',
       ],
       [
-        'title' => 'Ledger Summary',
-        'url'   => 'reports/sumLedger',
+        'title' => 'Balance Sheet',
+        'url'   => 'demo?t=Balance Sheet',
       ],
       [
-        'title' => 'Sales Overdues',
-        'url'   => 'reports/salesOverdues',
+        'title' => 'Profit & Loss',
+        'url'   => 'demo?t=Profit and Loss',
       ],
       [
-        'title' => 'Crushers Report',
-        'url'   => 'reports/reportsCrushers',
-      ],
-      [
-        'title' => 'Transporters Report',
-        'url'   => 'reports/reportsTransporters',
-      ],
-      [
-        'title' => 'Customers Report',
-        'url'   => 'reports/reportsCustomers',
-      ],
-      [
-        'title' => 'Delivery Report',
-        'url'   => 'reports/reportsDelivery',
-      ],
-      [
-        'title' => 'Invoice Annexure',
-        'url'   => 'reports/InvoiceAnnexure',
+        'title' => 'Other Report',
+        'url'   => 'demo?t=Other Report',
       ],
     ],
   ],

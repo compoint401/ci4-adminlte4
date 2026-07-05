@@ -4,10 +4,13 @@
 <div class="row">
   <div class="col-md-12">
     <div class="card">
-      <div class="card-header">
+      <div class="card-header" id="print-header">
         <div class="row">
           <div class="col">
             <h2>List of Users</h2>
+          </div>
+          <div class="col">
+            <div id="buttons"></div>
           </div>
           <div class="col text-end">
             <p><button id="addUserBtn" class="btn btn-primary">Add New User</button></p>
@@ -51,7 +54,9 @@
     $(this).find('span.error-text').text('');
   });
 
-  $('#user-table').DataTable({
+$(document).ready(function() {
+
+ var Table =  $('#user-table').DataTable({
     "processing": true,
     "serverSide": true,
     "ajax": "<?= route_to('get.all.users'); ?>",
@@ -75,6 +80,26 @@
     }],
   });
 
+  var buttons = new $.fn.dataTable.Buttons(Table, {
+      buttons: [
+        'colvis',
+        'excel',
+        {
+          extend: 'print',
+          footer: true,
+          title: ' ',
+          message: ' ',
+          customize: function(win) {
+            $(win.document.body)
+              // .css('font-size', '10pt')
+              .prepend(
+                $('#print-header').html()
+              );
+          }
+        }
+      ]
+    }).container().appendTo($('#buttons'));
+});
   $(document).on('click', '#addUserBtn', function() {
 
     var $modal = $('#user-modal');

@@ -2,7 +2,7 @@
 $errors = session()->getFlashdata('errors') ?? [];
 ?>
 
-<div class="modal fade" id="user-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+<div class="modal" id="user-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
   aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -14,19 +14,13 @@ $errors = session()->getFlashdata('errors') ?? [];
         <form action="" method="post" id="user-form" data-table="#user-table">
           <?= csrf_field(); ?>
           <input type="hidden" name="id">
-
           <?= view('admin/users/_userFormFields', ['errors' => $errors]) ?>
-
-          <div class="d-grid col-12 col-md-8 mx-auto m-3">
-            <button type="submit" class="btn btn-block btn-primary" id="form-submit-btn">Save</button>
-          </div>
-        </form>
+          </form>
       </div>
-      <!-- <div class="modal-footer">
+      <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Understood</button> 
-        <button type="submit" class="btn btn-primary" id="form-submit-btn">Save</button>
-      </div> -->
+        <button type="submit" class="btn btn-primary" form="user-form" id="form-submit-btn">Save</button>
+      </div>
     </div>
   </div>
 </div>

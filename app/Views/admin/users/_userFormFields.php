@@ -35,6 +35,7 @@
   'label' => lang('Auth.gender'),
   'selected' => old('gender'),
   'floating' => true,
+  'extra_attrs' => 'required',
   'options' => [
     'male' => 'Male',
     'female' => 'Female',
@@ -65,7 +66,7 @@
 <div class="usertype-field-group" style="display: none;">
   <?= form_select_group([
     'name' => 'usertype',
-    'label' => 'User Type',
+    'label' => lang('Auth.usertype'),
     'selected' => old('usertype', []),
     'floating' => true,
     'options' => [
@@ -74,6 +75,6 @@
       'superadmin' => 'Super Admin'
     ],
     'multiple' => true,
-    'extra_attrs' => ' size="4" '
+    'extra_attrs' => ' style="min-height:7rem;"'
   ]) ?>
 </div>

@@ -128,6 +128,24 @@
       animation: fa-spin 2s infinite linear;
       margin-right: 10px;
     }
+     @media print {
+
+    /* All your print styles go here */
+    #header,
+    #footer,
+    footer,
+    #nav,
+    #search-card,
+    .btn {
+      display: none !important;
+    }
+
+    @page {
+      size: A4 landscape;
+      max-height: 100%;
+      max-width: 100%
+    }
+  }
   </style>
   <?= $this->renderSection('css'); ?>
 </head>
@@ -212,15 +230,15 @@
           <li class="nav-item dropdown user-menu">
             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
               <img src="dist/assets/img/user2-160x160.jpg" class="user-image rounded-circle shadow"
-                alt="Alexander Pierce" />
-              <span class="d-none d-md-inline">Alexander Pierce</span>
+                alt="Demo" />
+              <span class="d-none d-md-inline">Demo</span>
             </a>
             <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
               <!--begin::User Image-->
               <li class="user-header text-bg-primary">
-                <img src="dist/assets/img/user2-160x160.jpg" class="rounded-circle shadow" alt="Alexander Pierce" />
+                <img src="dist/assets/img/user2-160x160.jpg" class="rounded-circle shadow" alt="Demo" />
                 <p>
-                  Alexander Pierce - Web Developer
+                  Demo - Web Developer
                   <small>Member since Nov. 2023</small>
                 </p>
               </li>
@@ -244,7 +262,7 @@
               <!--end::Menu Body-->
               <!--begin::Menu Footer-->
               <li class="user-footer">
-                <a href="#" class="btn btn-outline-secondary">Profile</a>
+                <a href="/user/profile" class="btn btn-outline-secondary">Profile</a>
                 <a href="/logout" class="btn btn-outline-danger float-end">Sign out</a>
               </li>
               <!--end::Menu Footer-->
@@ -268,7 +286,7 @@
           <img src="dist/assets/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image opacity-75 shadow" />
           <!--end::Brand Image-->
           <!--begin::Brand Text-->
-          <span class="brand-text fw-light">RS Natural</span>
+          <span class="brand-text fw-light">Demo</span>
           <!--end::Brand Text-->
         </a>
         <!--end::Brand Link-->
@@ -310,13 +328,13 @@
           <!--begin::Row-->
           <div class="row">
             <div class="col-sm-6">
-              <h1 class="mb-0 fs-3">Collapsed Sidebar</h1>
+              <h1 class="mb-0 fs-3"><?= $pageTitle ?? 'Collapsed Sidebar' ?></h1>
             </div>
             <div class="col-sm-6">
               <nav aria-label="breadcrumb">
                 <ol class="breadcrumb float-sm-end">
-                  <li class="breadcrumb-item"><a href="#">Home</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Collapsed Sidebar</li>
+                  <li class="breadcrumb-item"><a href="dashboard">Home</a></li>
+                  <li class="breadcrumb-item active" aria-current="page"><?= $pageTitle ?? 'Collapsed Sidebar' ?></li>
                 </ol>
               </nav>
             </div>
@@ -402,17 +420,7 @@
 
   <!-- jQuery -->
   <script src="plugins/jquery/jquery.min.js"></script>
-  <!-- Bootstrap 4 -->
-  <!-- <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script> -->
-  <!-- Datatable -->
-  <!-- <script src="plugins/datatables/jquery.dataTables.min.js"></script>
-  <script src="plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-  <script src="plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-  <script src="plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
-  <script src="plugins/datatables-buttons/js/buttons.html5.min.js"></script>
-  <script src="plugins/datatables-buttons/js/buttons.print.min.js"></script>
-  <script src="plugins/datatables-buttons/js/buttons.colVis.min.js"></script> -->
-
+  
   <script src="plugins/datatables5/datatables.min.js"></script>
   <script src="plugins/jszip/jszip.min.js"></script>
   <script src="plugins/pdfmake/pdfmake.min.js"></script>
