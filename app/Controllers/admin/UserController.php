@@ -157,7 +157,7 @@ class UserController extends BaseController
       'password' => [
         'label' => 'Auth.password',
         'rules' => [
-          'required',
+          $userId === null ? 'required' : 'permit_empty',
           'max_byte[72]',
           'strong_password[]',
         ],
@@ -167,7 +167,7 @@ class UserController extends BaseController
       ],
       'password_confirm' => [
         'label' => 'Auth.passwordConfirm',
-        'rules' => 'required|matches[password]',
+        'rules' => $userId === null ? 'required|matches[password]' : 'permit_empty|matches[password]',
       ],
       'gender' => [
         'rules' => 'required|in_list[male,female,bisexual]',
@@ -221,7 +221,7 @@ class UserController extends BaseController
     return $rules;
   }
 
-  public function addUser()
+  public function add()
   {
 
     if (!auth()->user()->can('users.create')) {
@@ -236,7 +236,7 @@ class UserController extends BaseController
 
     if ($validation->run() == FALSE) {
       $errors = $validation->getErrors();
-      echo json_encode(['code' => 0, 'error' => $errors]);
+      echo json_encode(['code' => 0, 'errors' => $errors]);
     } else {
       // Get the User Provider (UserModel by default)
       $users = auth()->getProvider();
@@ -286,7 +286,7 @@ class UserController extends BaseController
 
     if ($validation->run() == FALSE) {
       $errors = $validation->getErrors();
-      echo json_encode(['code' => 0, 'error' => $errors]);
+      echo json_encode(['code' => 0, 'errors' => $errors]);
     } else {
 
       $formData = $this->request->getPost(null, FILTER_UNSAFE_RAW);
@@ -297,12 +297,16 @@ class UserController extends BaseController
 
       $data = [
         'username' => $formData['username'],
-        'password' => $formData['password'],
         'first_name' => $formData['first_name'],
         'last_name' => $formData['last_name'],
         'gender' => $formData['gender'],
         'phone_number' => $formData['phone_number'],
       ];
+
+      // Only update password if provided
+      if (!empty($formData['password'])) {
+        $data['password'] = $formData['password'];
+      }
 
       $user->fill($data);
 
@@ -376,7 +380,7 @@ class UserController extends BaseController
     ]);
     if ($validation->run() == FALSE) {
       $errors = $validation->getErrors();
-      echo json_encode(['code' => 0, 'error' => $errors]);
+      echo json_encode(['code' => 0, 'errors' => $errors]);
     } else {
       // Get the User Provider (UserModel by default)
       $users = auth()->getProvider();
