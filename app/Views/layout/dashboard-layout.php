@@ -10,27 +10,27 @@
 
   <!--begin::Theme Init (prevents flash of incorrect theme on load, #6043)-->
   <script>
-    (() => {
-      'use strict';
-      const STORAGE_KEY = 'lte-theme';
-      let stored = null;
-      try {
-        stored = localStorage.getItem(STORAGE_KEY);
-      } catch {
-        // localStorage may be unavailable (private mode, sandboxed iframe).
-      }
-      const prefersDark = globalThis.matchMedia('(prefers-color-scheme: dark)').matches;
-      // Mirror the resolution in _scripts.astro: explicit "dark"/"light" win,
-      // otherwise ("auto" or unset) fall back to the OS preference.
-      let resolved = 'light';
-      if (stored === 'dark' || stored === 'light') {
-        resolved = stored;
-      } else if (prefersDark) {
-        resolved = 'dark';
-      }
-      document.documentElement.setAttribute('data-bs-theme', resolved);
-      document.documentElement.style.colorScheme = resolved;
-    })();
+  (() => {
+    'use strict';
+    const STORAGE_KEY = 'lte-theme';
+    let stored = null;
+    try {
+      stored = localStorage.getItem(STORAGE_KEY);
+    } catch {
+      // localStorage may be unavailable (private mode, sandboxed iframe).
+    }
+    const prefersDark = globalThis.matchMedia('(prefers-color-scheme: dark)').matches;
+    // Mirror the resolution in _scripts.astro: explicit "dark"/"light" win,
+    // otherwise ("auto" or unset) fall back to the OS preference.
+    let resolved = 'light';
+    if (stored === 'dark' || stored === 'light') {
+      resolved = stored;
+    } else if (prefersDark) {
+      resolved = 'dark';
+    }
+    document.documentElement.setAttribute('data-bs-theme', resolved);
+    document.documentElement.style.colorScheme = resolved;
+  })();
   </script>
   <!--end::Theme Init-->
   <!--begin::Accessibility Meta Tags-->
@@ -95,40 +95,41 @@
   <link rel="stylesheet" href="/plugins/toastr/toastr.min.css">
 
   <style>
-    .modal-lg {
-      max-width: 80% !important;
-    }
+  .modal-lg {
+    max-width: 80% !important;
+  }
 
-    /* Custom styles for DataTables processing indicator */
-    .dataTables_wrapper .dataTables_processing {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 250px;
-      margin-left: -125px;
-      margin-top: -15px;
-      padding: 1em;
-      background-color: #fff;
-      border: 2px solid #dee2e6;
-      border-radius: 0.25rem;
-      box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-      text-align: center;
-      font-size: 1.2em;
-      color: #333;
-      z-index: 1051;
-      /* Higher than modal backdrop */
-    }
+  /* Custom styles for DataTables processing indicator */
+  .dataTables_wrapper .dataTables_processing {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 250px;
+    margin-left: -125px;
+    margin-top: -15px;
+    padding: 1em;
+    background-color: #fff;
+    border: 2px solid #dee2e6;
+    border-radius: 0.25rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    text-align: center;
+    font-size: 1.2em;
+    color: #333;
+    z-index: 1051;
+    /* Higher than modal backdrop */
+  }
 
-    .dataTables_wrapper .dataTables_processing::before {
-      content: "\f110";
-      /* Font Awesome spinner icon */
-      font-family: "Font Awesome 5 Free";
-      font-weight: 900;
-      -webkit-animation: fa-spin 2s infinite linear;
-      animation: fa-spin 2s infinite linear;
-      margin-right: 10px;
-    }
-     @media print {
+  .dataTables_wrapper .dataTables_processing::before {
+    content: "\f110";
+    /* Font Awesome spinner icon */
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    -webkit-animation: fa-spin 2s infinite linear;
+    animation: fa-spin 2s infinite linear;
+    margin-right: 10px;
+  }
+
+  @media print {
 
     /* All your print styles go here */
     #header,
@@ -151,6 +152,7 @@
 </head>
 <!--end::Head-->
 <!--begin::Body-->
+<?php $User = auth()->user() ?? null; ?>
 
 <body class="layout-fixed sidebar-expand-lg sidebar-mini bg-body-tertiary">
   <!--begin::App Wrapper-->
@@ -229,16 +231,16 @@
           <!--begin::User Menu Dropdown-->
           <li class="nav-item dropdown user-menu">
             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-              <img src="dist/assets/img/user2-160x160.jpg" class="user-image rounded-circle shadow"
-                alt="Demo" />
-              <span class="d-none d-md-inline">Demo</span>
+              <img src="dist/assets/img/user2-160x160.jpg" class="user-image rounded-circle shadow" alt="Demo" />
+              <span
+                class="d-none d-md-inline"><?= ($User) ? $User->first_name . ' ' . $User->last_name : 'Demo' ?></span>
             </a>
             <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
               <!--begin::User Image-->
               <li class="user-header text-bg-primary">
                 <img src="dist/assets/img/user2-160x160.jpg" class="rounded-circle shadow" alt="Demo" />
                 <p>
-                  Demo - Web Developer
+                  <?= ($User) ? $User->first_name . ' ' . $User->last_name : 'Demo' ?>
                   <small>Member since Nov. 2023</small>
                 </p>
               </li>
@@ -387,32 +389,32 @@
   <!--end::Required Plugin(AdminLTE)-->
   <!--begin::OverlayScrollbars Configure-->
   <script>
-    const SELECTOR_SIDEBAR_WRAPPER = '.sidebar-wrapper';
-    const Default = {
-      scrollbarTheme: 'os-theme-light',
-      scrollbarAutoHide: 'leave',
-      scrollbarClickScroll: true,
-    };
-    document.addEventListener('DOMContentLoaded', function() {
-      const sidebarWrapper = document.querySelector(SELECTOR_SIDEBAR_WRAPPER);
+  const SELECTOR_SIDEBAR_WRAPPER = '.sidebar-wrapper';
+  const Default = {
+    scrollbarTheme: 'os-theme-light',
+    scrollbarAutoHide: 'leave',
+    scrollbarClickScroll: true,
+  };
+  document.addEventListener('DOMContentLoaded', function() {
+    const sidebarWrapper = document.querySelector(SELECTOR_SIDEBAR_WRAPPER);
 
-      // Disable OverlayScrollbars on mobile devices to prevent touch interference
-      const isMobile = window.innerWidth <= 992;
+    // Disable OverlayScrollbars on mobile devices to prevent touch interference
+    const isMobile = window.innerWidth <= 992;
 
-      if (
-        sidebarWrapper &&
-        OverlayScrollbarsGlobal?.OverlayScrollbars !== undefined &&
-        !isMobile
-      ) {
-        OverlayScrollbarsGlobal.OverlayScrollbars(sidebarWrapper, {
-          scrollbars: {
-            theme: Default.scrollbarTheme,
-            autoHide: Default.scrollbarAutoHide,
-            clickScroll: Default.scrollbarClickScroll,
-          },
-        });
-      }
-    });
+    if (
+      sidebarWrapper &&
+      OverlayScrollbarsGlobal?.OverlayScrollbars !== undefined &&
+      !isMobile
+    ) {
+      OverlayScrollbarsGlobal.OverlayScrollbars(sidebarWrapper, {
+        scrollbars: {
+          theme: Default.scrollbarTheme,
+          autoHide: Default.scrollbarAutoHide,
+          clickScroll: Default.scrollbarClickScroll,
+        },
+      });
+    }
+  });
   </script>
   <!--end::OverlayScrollbars Configure-->
 
@@ -420,7 +422,7 @@
 
   <!-- jQuery -->
   <script src="plugins/jquery/jquery.min.js"></script>
-  
+
   <script src="plugins/datatables5/datatables.min.js"></script>
   <script src="plugins/jszip/jszip.min.js"></script>
   <script src="plugins/pdfmake/pdfmake.min.js"></script>
