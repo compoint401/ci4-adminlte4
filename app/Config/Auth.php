@@ -47,7 +47,7 @@ class Auth extends ShieldAuth
      */
     public array $views = [
         'login'                       => '\CodeIgniter\Shield\Views\login',
-        'register'                    => '\CodeIgniter\Shield\Views\register',
+        'register'                    => 'Shield/register',
         'layout'                      => '\CodeIgniter\Shield\Views\layout',
         'action_email_2fa'            => '\CodeIgniter\Shield\Views\email_2fa_show',
         'action_email_2fa_verify'     => '\CodeIgniter\Shield\Views\email_2fa_verify',
@@ -73,16 +73,16 @@ class Auth extends ShieldAuth
      * If you need more flexibility you can override the `getUrl()` method
      * to apply any logic you may need.
      */
-    public array $redirects = [
-        'register'          => '/login',
-        'login'             => '/dashboard',
-        'logout'            => '/login',
-        'force_reset'       => '/',
-        'permission_denied' => '/',
-        'group_denied'      => '/',
-    ];
 
-    /**
+     public array $redirects = [
+        'register'          => 'login',
+        'login'             => 'dashboard',
+        'logout'            => 'login',
+        'force_reset'       => 'user/passwordReset',
+        'permission_denied' => 'user/permissionDenied',
+        'group_denied'      => 'user/permissionDenied',
+    ];
+     /**
      * --------------------------------------------------------------------
      * Authentication Actions
      * --------------------------------------------------------------------
