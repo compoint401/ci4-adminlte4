@@ -21,6 +21,13 @@ $menu = [
   ],
 
   [
+    'title' => 'Demo BS5 Form',
+    'icon'  => 'bi bi-book',
+    'url'   => 'bsformdemo',
+    'permission' => null,
+  ],
+
+  [
     'title' => 'Reports',
     'icon'  => 'bi bi-book',
     'url'   => '#',

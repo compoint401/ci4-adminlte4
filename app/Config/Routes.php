@@ -1,5 +1,6 @@
 <?php
 
+use App\Controllers\BsFormDemo;
 use CodeIgniter\Router\RouteCollection;
 
 /** @var RouteCollection $routes */
@@ -16,22 +17,28 @@ $routes->set404Override('App\Controllers\Home::page404');
 $routes->setAutoRoute(false);
 
 $routes->get('/', 'Home::index');
-$routes->get('demo', function() {
-    
-    // $cleanTitle = urldecode(String $page);
+$routes->get('demo', function () {
 
-    // 2. Assign it to the data array
-    $data = [
-        'pageTitle' => urldecode($_GET['t'])
-    ];
-    
-    return view('admin/dashboard/demopage', $data); 
+  // $cleanTitle = urldecode(String $page);
+
+  // 2. Assign it to the data array
+  $data = [
+    'pageTitle' => urldecode($_GET['t'])
+  ];
+
+  return view('admin/dashboard/demopage', $data);
 });
+
 
 
 service('auth')->routes($routes);
 
-$routes->group("user",['filter' => 'session'] , static function ($routes) {
+$routes->group("bsformdemo", static function ($routes) {
+  $routes->get('/', 'BsFormDemo');
+  $routes->post('submit', 'BsFormDemo::submit');
+});
+
+$routes->group("user", ['filter' => 'session'], static function ($routes) {
   $routes->get('home', 'Admin\UserController::index', ['as' => 'user.home']);
   $routes->get('profile', 'Admin\UserController::profile', ['as' => 'user.profile']);
   $routes->get('permissionDenied', 'Admin\UserController::permissionDenied', ['as' => 'permissiondenied']);
