@@ -22,7 +22,7 @@
 
   <?= bsform_open('bsformdemo/submit', ['class' => 'needs-validation', 'novalidate' => true]) ?>
 
-  <?= bsform_input('username', old('username'), 'Username', ['placeholder' => 'Enter username']) ?>
+  <?= bsform_input('username', old('username'), 'Username', ['placeholder' => 'Enter username', 'required']) ?>
   <?= bsform_password('password', '', 'Password') ?>
   <?= bsform_email('email', old('email'), 'Email Address') ?>
   <?= bsform_textarea('bio', old('bio'), 'Short Bio', ['rows' => 3]) ?>
