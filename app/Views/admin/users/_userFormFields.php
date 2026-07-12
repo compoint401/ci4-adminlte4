@@ -1,80 +1,30 @@
 <div class="email-field-group">
-  <?= form_input_group([
-    'name' => 'email',
-    'label' => lang('Auth.email'),
-    'type' => 'email',
-    'value' => old('email'),
-    'floating' => true,
-    'extra_attrs' => 'required'
-  ]) ?>
+  <?= bsform_floating_input('email',old('email'),lang('Auth.email'),['type' => 'email','required'=>true]) ?>
 </div>
 
-<?= form_input_group([
-  'name' => 'username',
-  'label' => lang('Auth.username'),
-  'value' => old('username'),
-  'floating' => true,
-  'extra_attrs' => 'required'
-]) ?>
-<?= form_input_group([
-  'name' => 'password',
-  'label' => lang('Auth.password'),
-  'type' => 'password',
-  'floating' => true,
-  'extra_attrs' => 'required autocomplete="new-password"'
-]) ?>
-<?= form_input_group([
-  'name' => 'password_confirm',
-  'label' => lang('Auth.passwordConfirm'),
-  'type' => 'password',
-  'floating' => true,
-  'extra_attrs' => 'required autocomplete="new-password"'
-]) ?>
-<?= form_select_group([
-  'name' => 'gender',
-  'label' => lang('Auth.gender'),
-  'selected' => old('gender'),
-  'floating' => true,
-  'extra_attrs' => 'required',
-  'options' => [
+<?= bsform_floating_input('username',old('username'),lang('Auth.username'),['required'=>true]) ?>
+<?= bsform_floating_input('password','',lang('Auth.password'),['type' => 'password','required'=>true,'autocomplete'=>'new-password']) ?>
+<?= bsform_floating_input('password_confirm','',lang('Auth.passwordConfirm'),['type' => 'password','required'=>true, 'autocomplete'=>'new-password']) ?>
+<?php 
+$gender = [
     'male' => 'Male',
     'female' => 'Female',
     'bisexual' => 'Bisexual'
-  ]
-]) ?>
-<?= form_input_group([
-  'name' => 'first_name',
-  'label' => lang('Auth.first_name'),
-  'value' => old('first_name'),
-  'floating' => true,
-  'extra_attrs' => 'required'
-]) ?>
-<?= form_input_group([
-  'name' => 'last_name',
-  'label' => lang('Auth.last_name'),
-  'value' => old('last_name'),
-  'floating' => true,
-  'extra_attrs' => 'required'
-]) ?>
-<?= form_input_group([
-  'name' => 'phone_number',
-  'label' => lang('Auth.phone_number'),
-  'value' => old('phone_number'),
-  'floating' => true,
-  'extra_attrs' => 'required'
-]) ?>
-<div class="usertype-field-group" style="display: none;">
-  <?= form_select_group([
-    'name' => 'usertype',
-    'label' => lang('Auth.usertype'),
-    'selected' => old('usertype', []),
-    'floating' => true,
-    'options' => [
-      'user' => 'User',
-      'admin' => 'Admin',
-      'superadmin' => 'Super Admin'
-    ],
-    'multiple' => true,
-    'extra_attrs' => ' style="min-height:7rem;"'
-  ]) ?>
+  ];
+ echo bsform_select('gender',$gender,lang('Auth.gender'),old('gender'),['required'=>true]); 
+?>
+<?= bsform_floating_input('first_name',old('first_name'),lang('Auth.first_name'),['required'=>true]) ?>
+<?= bsform_floating_input('last_name',old('last_name'),lang('Auth.last_name'),['required'=>true]) ?>
+<?= bsform_floating_input('phone_number',old('phone_number'),lang('Auth.phone_number'),['required'=>true]) ?>
+
+<div class="usertype-field-group" style="display:none;">
+<?php  
+$usertypes = [
+    'user'        => 'User',
+    'admin'       => 'Admin',
+    'superadmin'  => 'Super Admin'
+];
+
+echo bsform_select('usertype',$usertypes,lang('Auth.usertype'),old('usertype'),['required'=>true, 'multiple' => true,'extra_attrs' => ' style="min-height:7rem;"']); 
+?>
 </div>

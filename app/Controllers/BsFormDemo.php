@@ -9,8 +9,11 @@ class BsFormDemo extends BaseController
 {
     public function index()
     {
-        helper('bsform');
-        return view('admin/dashboard/bsformdemo');
+        $data = [
+            'validation' => \Config\Services::validation()
+        ];
+        //helper('bsform');
+        return view('admin/dashboard/bsformdemo', $data );
     }
 
     public function submit()

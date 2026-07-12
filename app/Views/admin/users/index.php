@@ -119,6 +119,7 @@ $(document).ready(function() {
 
     $modal.modal('show');
     $modal.find('.email-field-group').show();
+    $modal.find('select[name="usertype"]').removeAttr('required');
     $modal.find('.usertype-field-group').hide();
   });
 

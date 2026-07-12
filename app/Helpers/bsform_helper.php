@@ -16,13 +16,54 @@ if (! function_exists('bsform_close')) {
   }
 }
 
+if (! function_exists('bsform_submit')) {
+  function bsform_submit($label = 'Submit', $attributes = [])
+  {
+    return form_submit(array_merge(['class' => 'btn btn-primary'], $attributes), $label);
+  }
+}
+
+if (! function_exists('bsform_reset')) {
+  function bsform_reset($label = 'Reset', $attributes = [])
+  {
+    return form_reset(array_merge(['class' => 'btn btn-secondary'], $attributes), $label);
+  }
+}
+
+if (! function_exists('bsform_error')) {
+  function bsform_error($field)
+  {
+    $errors = session('errors');
+    if (! empty($errors[$field])) {
+      return '<div class="invalid-feedback d-block">' . $errors[$field] . '</div>';
+    }
+
+    return '';
+  }
+}
+
+if (! function_exists('bsform_validation_class')) {
+  function bsform_validation_class($field, $defaultClass = 'form-control')
+  {
+    $errors = session('errors');
+    if (! empty($errors[$field])) {
+      return trim($defaultClass . ' is-invalid');
+    }
+
+    return $defaultClass;
+  }
+}
+
 if (! function_exists('bsform_input')) {
   function bsform_input($name, $value = '', $label = '', $attributes = [], $helpText = '')
   {
     $id = $attributes['id'] ?? $name;
+    $inputAttributes = array_merge(['name' => $name, 'id' => $id, 'value' => $value], $attributes);
+    $inputAttributes['class'] = bsform_validation_class($name, $attributes['class'] ?? 'form-control');
+
     $html  = '<div class="mb-3">';
     $html .= form_label($label, $id, ['class' => 'form-label']);
-    $html .= form_input(array_merge(['name' => $name, 'id' => $id, 'value' => $value, 'class' => 'form-control'], $attributes));
+    $html .= form_input($inputAttributes);
     if ($helpText) {
       $html .= '<div class="form-text">' . $helpText . '</div>';
     }
@@ -50,9 +91,12 @@ if (! function_exists('bsform_textarea')) {
   function bsform_textarea($name, $value = '', $label = '', $attributes = [], $helpText = '')
   {
     $id = $attributes['id'] ?? $name;
+    $textareaAttributes = array_merge(['name' => $name, 'id' => $id, 'value' => $value], $attributes);
+    $textareaAttributes['class'] = bsform_validation_class($name, $attributes['class'] ?? 'form-control');
+
     $html  = '<div class="mb-3">';
     $html .= form_label($label, $id, ['class' => 'form-label']);
-    $html .= form_textarea(array_merge(['name' => $name, 'id' => $id, 'value' => $value, 'class' => 'form-control'], $attributes));
+    $html .= form_textarea($textareaAttributes);
     if ($helpText) {
       $html .= '<div class="form-text">' . $helpText . '</div>';
     }
@@ -66,9 +110,11 @@ if (! function_exists('bsform_select')) {
   function bsform_select($name, $options = [], $label = '', $selected = null, $attributes = [])
   {
     $id = $attributes['id'] ?? $name;
+    $selectAttributes = array_merge(['id' => $id], $attributes);
+    $selectAttributes['class'] = bsform_validation_class($name, $attributes['class'] ?? 'form-control');
     $html  = '<div class="mb-3">';
     $html .= form_label($label, $id, ['class' => 'form-label']);
-    $html .= form_dropdown($name, $options, $selected, array_merge(['id' => $id, 'class' => 'form-select'], $attributes));
+    $html .= form_dropdown($name, $options, $selected, $selectAttributes);
     $html .= bsform_error($name);
     $html .= '</div>';
     return $html;
@@ -79,8 +125,10 @@ if (! function_exists('bsform_checkbox')) {
   function bsform_checkbox($name, $value = '1', $checked = false, $label = '', $attributes = [])
   {
     $id = $attributes['id'] ?? $name;
+    $checkboxAttributes = array_merge(['name' => $name, 'id' => $id, 'value' => $value, 'checked' => $checked], $attributes);
+    $checkboxAttributes['class'] = bsform_validation_class($name, $attributes['class'] ?? 'form-check-input');
     $html  = '<div class="form-check mb-3">';
-    $html .= form_checkbox(array_merge(['name' => $name, 'id' => $id, 'value' => $value, 'checked' => $checked, 'class' => 'form-check-input'], $attributes));
+    $html .= form_checkbox($checkboxAttributes);
     $html .= form_label($label, $id, ['class' => 'form-check-label']);
     $html .= bsform_error($name);
     $html .= '</div>';
@@ -92,8 +140,10 @@ if (! function_exists('bsform_radio')) {
   function bsform_radio($name, $value, $checked = false, $label = '', $attributes = [])
   {
     $id = $attributes['id'] ?? $name . '_' . $value;
+    $radioAttributes = array_merge(['name' => $name, 'id' => $id, 'value' => $value, 'checked' => $checked, 'class' => 'form-check-input'], $attributes);
+    $radioAttributes['class'] = bsform_validation_class($name, $attributes['class'] ?? 'form-check-input');
     $html  = '<div class="form-check mb-3">';
-    $html .= form_radio(array_merge(['name' => $name, 'id' => $id, 'value' => $value, 'checked' => $checked, 'class' => 'form-check-input'], $attributes));
+    $html .= form_radio($radioAttributes);
     $html .= form_label($label, $id, ['class' => 'form-check-label']);
     $html .= bsform_error($name);
     $html .= '</div>';
@@ -105,36 +155,30 @@ if (! function_exists('bsform_file')) {
   function bsform_file($name, $label = '', $attributes = [])
   {
     $id = $attributes['id'] ?? $name;
+    $fileAttributes = array_merge(['name' => $name, 'id' => $id], $attributes);
+    $fileAttributes['class'] = bsform_validation_class($name, $attributes['class'] ?? 'form-control');
+
     $html  = '<div class="mb-3">';
     $html .= form_label($label, $id, ['class' => 'form-label']);
-    $html .= form_upload(array_merge(['name' => $name, 'id' => $id, 'class' => 'form-control'], $attributes));
+    $html .= form_upload($fileAttributes);
     $html .= bsform_error($name);
     $html .= '</div>';
     return $html;
   }
 }
 
-if (! function_exists('bsform_submit')) {
-  function bsform_submit($label = 'Submit', $attributes = [])
-  {
-    return form_submit(array_merge(['class' => 'btn btn-primary'], $attributes), $label);
-  }
-}
 
-if (! function_exists('bsform_reset')) {
-  function bsform_reset($label = 'Reset', $attributes = [])
-  {
-    return form_reset(array_merge(['class' => 'btn btn-secondary'], $attributes), $label);
-  }
-}
 
 if (! function_exists('bsform_floating_input')) {
   function bsform_floating_input($name, $value = '', $label = '', $attributes = [])
   {
     $id = $attributes['id'] ?? $name;
     $type = $attributes['type'] ?? 'text';
+    $inputAttributes = array_merge(['type' => $type, 'name' => $name, 'id' => $id, 'value' => $value, 'placeholder' => $label], $attributes);
+    $inputAttributes['class'] = bsform_validation_class($name, $attributes['class'] ?? 'form-control');
+
     $html  = '<div class="form-floating mb-3">';
-    $html .= form_input(array_merge(['type' => $type, 'name' => $name, 'id' => $id, 'value' => $value, 'class' => 'form-control', 'placeholder' => $label], $attributes));
+    $html .= form_input($inputAttributes);
     $html .= form_label($label, $id);
     $html .= bsform_error($name);
     $html .= '</div>';
@@ -146,8 +190,11 @@ if (! function_exists('bsform_floating_textarea')) {
   function bsform_floating_textarea($name, $value = '', $label = '', $attributes = [])
   {
     $id = $attributes['id'] ?? $name;
+    $textareaAttributes = array_merge(['name' => $name, 'id' => $id, 'value' => $value, 'placeholder' => $label], $attributes);
+    $textareaAttributes['class'] = bsform_validation_class($name, $attributes['class'] ?? 'form-control');
+
     $html  = '<div class="form-floating mb-3">';
-    $html .= form_textarea(array_merge(['name' => $name, 'id' => $id, 'value' => $value, 'class' => 'form-control', 'placeholder' => $label], $attributes));
+    $html .= form_textarea($textareaAttributes);
     $html .= form_label($label, $id);
     $html .= bsform_error($name);
     $html .= '</div>';
@@ -155,15 +202,7 @@ if (! function_exists('bsform_floating_textarea')) {
   }
 }
 
-if (! function_exists('bsform_error')) {
-  function bsform_error($field)
-  {
-    $errors = session('errors');
-    if (! empty($errors[$field])) {
-      return '<div class="invalid-feedback d-block">' . $errors[$field] . '</div>';
-    }
-    return '';
-  }
+
 
   // Grouped radios (stacked or inline)
   if (! function_exists('bsform_radio_group')) {
@@ -238,4 +277,3 @@ if (! function_exists('bsform_error')) {
       return $html;
     }
   }
-}
